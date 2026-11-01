@@ -70,10 +70,21 @@ CREATE TABLE IF NOT EXISTS engine_runs (
   error TEXT,
   notes_json TEXT
 );
+CREATE TABLE IF NOT EXISTS media_index (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  media_sha256 TEXT UNIQUE,
+  phash TEXT NOT NULL,
+  dhash TEXT,
+  first_seen TEXT NOT NULL,
+  original_url TEXT,
+  title TEXT,
+  source TEXT
+);
 CREATE INDEX IF NOT EXISTS idx_claims_check ON claims(check_id);
 CREATE INDEX IF NOT EXISTS idx_signals_check ON signals(check_id);
 CREATE INDEX IF NOT EXISTS idx_runs_check ON engine_runs(check_id);
 CREATE INDEX IF NOT EXISTS idx_checks_received ON checks(received_at);
+CREATE INDEX IF NOT EXISTS idx_media_phash ON media_index(phash);
 """
 
 
@@ -244,3 +255,44 @@ class DB:
                 "WHERE ch.received_at>=? GROUP BY k HAVING n>=2 ORDER BY n DESC, last_seen DESC LIMIT ?",
                 (cutoff, limit)).fetchall()
         return [{"claim": r["text"], "checks": r["n"], "lastSeen": r["last_seen"]} for r in rows]
+
+    def index_media(self, sha256: str, phash: str, dhash: str = "", first_seen: str = "",
+                    original_url: str = "", title: str = "", source: str = "") -> None:
+        """Store a known media perceptual hash in the reverse image/video index."""
+        first_seen = first_seen or now_iso()
+        with self._conn() as c:
+            c.execute(
+                "INSERT OR REPLACE INTO media_index (media_sha256, phash, dhash, first_seen, original_url, title, source) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (sha256, phash, dhash, first_seen, original_url, title, source))
+
+    def search_media_by_hash(self, target_phash: str, max_distance: int = 10) -> list[dict]:
+        """Find matching known media entries whose perceptual hash Hamming distance <= max_distance."""
+        if not target_phash:
+            return []
+        try:
+            target_int = int(target_phash, 16)
+        except ValueError:
+            return []
+        with self._conn() as c:
+            rows = c.execute("SELECT * FROM media_index").fetchall()
+        matches = []
+        for r in rows:
+            p = r["phash"]
+            try:
+                p_int = int(p, 16)
+                dist = bin(target_int ^ p_int).count("1")
+                if dist <= max_distance:
+                    matches.append({
+                        "id": r["id"],
+                        "sha256": r["media_sha256"],
+                        "firstSeen": r["first_seen"],
+                        "originalUrl": r["original_url"],
+                        "title": r["title"],
+                        "source": r["source"],
+                        "distance": dist,
+                    })
+            except ValueError:
+                continue
+        matches.sort(key=lambda x: (x["distance"], x["firstSeen"]))
+        return matches

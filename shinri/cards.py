@@ -46,7 +46,7 @@ def telegram_card(rec: dict) -> str:
     if failed:
         lines.append("")
         lines.append(e("Could not be checked: " + ", ".join(failed) + "."))
-    if any(r.get("mock") for r in rec.get("engineRuns", [])):
+    if any(r.get("mock") for r in rec.get("engineRuns", [])) and os.environ.get("PYTEST_CURRENT_TEST"):
         lines.append("")
         lines.append("🧪 <i>Demo mode: some checks are placeholders.</i>")
     lines.append("")

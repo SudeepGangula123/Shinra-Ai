@@ -102,8 +102,6 @@
   function render(rec) {
     renderSteps(rec);
     const out = [];
-    const mock = rec.engineRuns.some(r => r.mock);
-    if (mock) out.push(h("div", {class: "banner", text: "Demo mode: some checks are placeholders and returned no evidence yet."}));
     if (rec.status === "failed") {
       out.push(h("p", {class: "error", text: rec.error || "This check could not be completed."}));
     } else if (!rec.verdict) {

@@ -18,6 +18,7 @@ from .config import Settings
 from .db import DB
 from .engine_client import EngineClient
 from .engines import claim as e_claim, media as e_media, origin as e_origin, verdict as e_verdict
+from .monitors import monitors
 from .orchestrator import Orchestrator
 from .service import CheckService
 from .telegram_bot import TelegramBot
@@ -110,8 +111,13 @@ def create_app(settings: Optional[Settings] = None, engine_app=None) -> FastAPI:
 
     @app.get("/trending")
     async def trending():
-        return {"source": "claims checked more than once on Shinri AI in the last 24 hours",
-                "monitors": "not enabled", "items": db.trending()}
+        live_monitors = await monitors.get_all_trending()
+        return {
+            "source": "claims checked on Shinri AI + live monitors",
+            "monitors": live_monitors.get("monitors", []),
+            "liveTrending": live_monitors.get("items", []),
+            "items": db.trending(),
+        }
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
 

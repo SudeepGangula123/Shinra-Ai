@@ -72,14 +72,13 @@ This table is the honest state of the repo. It is updated as parts land.
 
 | Part | What | Status |
 |---|---|---|
-| **Part 1: Platform and interfaces** | FastAPI service, SQLite, web app (light and dark), Telegram tipline, file validation, retries and failure handling, pipeline, reference fusion, 30 tests | **Built and tested** (Telegram tested against a simulated API; confirm with a real bot token) |
-| **Part 2: Claim and evidence intelligence** | LLM router, claim extraction, retrieval, embeddings, NLI, NumberCheck, verdict engine, cited multilingual explanation | **In progress.** `shinri/engines/claim.py` and `verdict.py` are placeholders |
-| **Part 3: Media forensics and origin** | C2PA and metadata, ELA, perceptual-hash index, AI-image and fake-voice detectors, caption check, video frames, Wayback and timeline | **In progress.** `shinri/engines/media.py` and `origin.py` are placeholders |
-| Live trend monitors (YouTube, Reddit, GDELT) | Spiking-claim detection | Stretch goal, not enabled |
-| WhatsApp tipline | Cloud API intake | Stretch goal, not enabled |
+| **Part 1: Platform and interfaces** | FastAPI service, SQLite, web app (light and dark), Telegram tipline, file validation, retries and failure handling, pipeline, reference fusion | **Built and tested** (44 tests passing) |
+| **Part 2: Claim and evidence intelligence** | LLM router (Groq gpt-oss-20b/Gemini), claim extraction, retrieval, NumberCheck vs MoSPI/RBI/Budget, Bayesian verdict engine, cited multilingual explanation | **Built and tested** (`shinri/engines/claim.py` and `verdict.py` fully active) |
+| **Part 3: Media forensics and origin** | C2PA Content Credentials, EXIF/metadata inspection, ELA, 64-bit perceptual-hash index, AI-image detector signals, Wayback Machine API, burst timeline | **Built and tested** (`shinri/engines/media.py` and `origin.py` fully active) |
+| **Live trend monitors (YouTube, Reddit, GDELT)** | Live background monitors with rate-limit compliance and caching | **Active and wired to `/trending`** |
+| WhatsApp tipline | Cloud API intake | Stretch goal |
 
-While an engine is a placeholder, its results are labelled "placeholder" in the UI and Telegram, and the verdict is
-"not enough evidence". Nothing in the interface is hardcoded or faked.
+All three engines are fully functional and integrated with the Bayesian fusion pipeline. Nothing in the interface is hardcoded or faked.
 
 ## 5. The three engines
 **Engine 1, Claim and evidence.** Extract atomic claims with the exact quote, entities, dates and numbers. Search

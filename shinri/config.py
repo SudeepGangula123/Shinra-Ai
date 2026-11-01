@@ -3,6 +3,9 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from dotenv import load_dotenv
+
+load_dotenv()
 
 MB = 1024 * 1024
 ENGINES = ("claim", "media", "origin", "verdict")
