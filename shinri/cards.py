@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html
+import os
 
 LABEL_TEXT = {
     "supported": {"short": "Supported", "emoji": "✅",

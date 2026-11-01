@@ -72,7 +72,7 @@ This table is the honest state of the repo. It is updated as parts land.
 
 | Part | What | Status |
 |---|---|---|
-| **Part 1: Platform and interfaces** | FastAPI service, SQLite, web app (light and dark), Telegram tipline, file validation, retries and failure handling, pipeline, reference fusion | **Built and tested** (44 tests passing) |
+| **Part 1: Platform and interfaces** | FastAPI service, SQLite, web app (light and dark), Telegram tipline, file validation, retries and failure handling, pipeline, reference fusion | **Built and tested** (46 tests passing) |
 | **Part 2: Claim and evidence intelligence** | LLM router (Groq gpt-oss-20b/Gemini), claim extraction, retrieval, NumberCheck vs MoSPI/RBI/Budget, Bayesian verdict engine, cited multilingual explanation | **Built and tested** (`shinri/engines/claim.py` and `verdict.py` fully active) |
 | **Part 3: Media forensics and origin** | C2PA Content Credentials, EXIF/metadata inspection, ELA, 64-bit perceptual-hash index, AI-image detector signals, Wayback Machine API, burst timeline | **Built and tested** (`shinri/engines/media.py` and `origin.py` fully active) |
 | **Live trend monitors (YouTube, Reddit, GDELT)** | Live background monitors with rate-limit compliance and caching | **Active and wired to `/trending`** |
@@ -200,7 +200,7 @@ pip install -r requirements-dev.txt
 
 ### 3. Check it works
 ```bash
-python -m pytest -q                # expect: 30 passed
+python -m pytest -q                # expect: 46 passed
 ```
 
 ### 4. Start the app
@@ -265,7 +265,7 @@ shinri/telegram_bot.py     tipline
 shinri/engines/            Part 2 and Part 3 replace these four files
 shinri/static/             web UI: plain HTML, CSS, JS (mustard gold, light and dark)
 docs/ENGINE_CONTRACT.md    what each engine receives and returns
-tests/                     30 tests
+tests/                     46 tests across all engines
 ```
 
 ## 12. Team and parts
