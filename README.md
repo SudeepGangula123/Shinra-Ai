@@ -16,6 +16,8 @@ behind it, how sure it is, and exactly which signals led there. Code computes th
 
 > Built for the Forge hackathon · Theme 1: Civic Pulse, Digital Governance & Public Information ·
 > Problem #4: Real-Time Fact-Verification & Deepfake Audit Engine
+>
+> 🌐 **Live Prototype:** [https://turn-pci-rhythm-char.trycloudflare.com](https://turn-pci-rhythm-char.trycloudflare.com)
 
 ---
 
