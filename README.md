@@ -18,7 +18,7 @@ behind it, how sure it is, and exactly which signals led there. Code computes th
 > Problem #4: Real-Time Fact-Verification & Deepfake Audit Engine
 >
 > 🌐 **Live Prototype (Permanent):** [https://huggingface.co/spaces/Ian7385/shinri-ai](https://huggingface.co/spaces/Ian7385/shinri-ai) · [Direct App](https://ian7385-shinri-ai.hf.space)
-> 🌐 **Alternative Live Mirror:** [https://turn-pci-rhythm-char.trycloudflare.com](https://turn-pci-rhythm-char.trycloudflare.com)
+> 🌐 **Alternative Live Mirror:** [https://perfume-towers-feelings-henderson.trycloudflare.com](https://perfume-towers-feelings-henderson.trycloudflare.com)
 
 ---
 
